@@ -12,7 +12,7 @@ import kotlin.Exception
  * Functions for command-line I/O.
  *
  * @author   Hank Adler
- * @version  0.1.0  2020-06-17
+ * @version  0.2.0
  * @license  MIT
  */
 object Console {
@@ -21,7 +21,7 @@ object Console {
     const val DOUBLE_TYPE = 2
     const val BOOLEAN_TYPE = 3
 
-    private val inputTypes = listOf(String::class, Int::class, Double::class, Boolean::class)
+    private val inputTypes = listOf("String", "Int", "Double", "Boolean")
 
     var clearScreen = false
     var keepAsking = true
@@ -74,10 +74,12 @@ object Console {
                     INT_TYPE -> inputString.toInt()
                     DOUBLE_TYPE -> inputString.toDouble()
                     BOOLEAN_TYPE -> {
-                        if (inputString == "1") {
+                        if (inputString.toLowerCase() in listOf("1", "true".toLowerCase())) {
                             true
+                        } else if (inputString.toLowerCase() in listOf("0", "false")) {
+                            false
                         } else {
-                            inputString.toBoolean()
+                            throw IllegalArgumentException()
                         }
                     }
                     else -> inputString
@@ -86,7 +88,7 @@ object Console {
             } catch (e: IllegalArgumentException) {
                 if (!loopSilently) {
                     println("ERROR: Input must be of <${inputTypes[valueType]}> type!")
-                    Thread.sleep(500)
+                    Thread.sleep(1000)
                     continue
                 }
             }
@@ -134,14 +136,16 @@ object Console {
                 println("    ${i + 1}. ${collection[i]}")
             }
             print("Choice: ")
-            val choice = readLine() ?: return valueDefault!!
+            val choice = readLine()
+
+            if (choice.isNullOrBlank()) return if (valueDefault == null) continue else valueDefault!!
 
             try {
                 index = choice.toInt() - 1
             } catch (e: NumberFormatException) {
                 if (!loopSilently) {
-                    println("ERROR: ${e.toString()}")
-                    Thread.sleep(500)
+                    println("ERROR: Index must be a number!")
+                    Thread.sleep(1000)
                 }
                 continue
             }
@@ -149,7 +153,7 @@ object Console {
             if (index !in collection.indices) {
                 if (!loopSilently) {
                     println("ERROR: Index out of range!")
-                    Thread.sleep(500)
+                    Thread.sleep(1000)
                 }
                 continue
             }
