@@ -65,9 +65,7 @@ object Console {
             print(prompt)
             val inputString = readLine()
 
-            if (inputString.isNullOrBlank()) {
-                return value
-            }
+            if (inputString.isNullOrBlank()) return valueDefault ?: continue
 
             try {
                 value = when (valueType) {
