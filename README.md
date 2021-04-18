@@ -59,7 +59,7 @@ Tell me Hank, how's the sky right now?
     4. Black
 Choice: 3
 
-	Sunsets are short lived, perhaps therein lies its beauty...
+    Sunsets are short lived, perhaps therein lies its beauty...
 ```
 
 ## License
