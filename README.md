@@ -1,4 +1,4 @@
-# kotlin-io-console
+# kt-console
 
 Functions for command-line I/O.
 
